@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>video player</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            border: none;
+        }
+        #videoPlayer{
+            width: 100vw;
+            height: 100vh;
+        }
+        #controls{
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10000;
+        }
+        #inputVideo{
+            width: 50px;
+            height:30px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+        }
+        #playerRote {
+            font-size: 14px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div id="controls">
+            <input id="fileInput" type="file" style="display:none;" onChange="bindInoutChange()"/>
+            <button id="inputVideo" onClick="inputVideo()">导入</button>
+            <input type="number" name="" id="playerRote" placeholder="rote" value="1" min="0.25" max="4"  oninput="changePlayerRate()">
+        </div>
+        <video id="videoPlayer" controls autoplay></video>
+    </div>
+    <script>
+        function inputVideo(){
+            var fileInput=document.getElementById('fileInput');
+            fileInput.click();
+        }
+        function bindInoutChange () {
+            var file = document.getElementById('fileInput').files[0];
+            if(!file){
+                return;
+            }
+            var url = URL.createObjectURL(file);
+            console.log(url);
+            document.getElementById("videoPlayer").src = url;
+            changePlayerRate();
+        }
+        function changePlayerRate () {
+            var playerRote = document.getElementById("playerRote").value
+            console.log(playerRote);
+            document.getElementById("videoPlayer").playbackRate =  playerRote ? playerRote > 4 ? 4 : playerRote < 0.25 ? 0.25 : playerRote : 1.5;
+        }
+    </script>
+</body>
+</html>
